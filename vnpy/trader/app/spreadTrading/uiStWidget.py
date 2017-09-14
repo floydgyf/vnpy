@@ -515,7 +515,6 @@ class StManager(QtWidgets.QWidget):
         """初始化"""
         self.stEngine.init()
         self.algoManager.initCells()
-    
-    
-    
-    
+
+
+

@@ -882,8 +882,8 @@ class TradingWidget(QtWidgets.QFrame):
         buttonCancelAll = QtWidgets.QPushButton(vtText.CANCEL_ALL)
         
         size = buttonSendOrder.sizeHint()
-        buttonSendOrder.setMinimumHeight(size.height()*2)   # 把按钮高度设为默认两倍
-        buttonCancelAll.setMinimumHeight(size.height()*2)
+        buttonSendOrder.setMinimumHeight(size.height())
+        buttonCancelAll.setMinimumHeight(size.height())
 
         # 整合布局
         hbox = QtWidgets.QHBoxLayout()

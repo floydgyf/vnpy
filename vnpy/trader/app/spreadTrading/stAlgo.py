@@ -251,7 +251,7 @@ class SniperAlgo(StAlgoTemplate):
             if vtSymbol == self.activeVtSymbol:
                 self.newActiveLegTrade(vtSymbol, order.direction, volume)
             else:
-                self.newPassiveLegTrade(vtSymbol, order.direction, volume)            
+                self.newPassiveLegTrade(vtSymbol, order.direction, volume)
             
         # 处理完成委托
         if order.status in self.FINISHED_STATUS:
@@ -345,24 +345,26 @@ class SniperAlgo(StAlgoTemplate):
         vtSymbol = leg.vtSymbol
         volume = abs(legVolume)
         payup = leg.payup
-        
+        print vtSymbol, legVolume, leg.shortPos, leg.longPos
         # 发送委托
         if legVolume > 0:
             price = leg.askPrice
             
             if leg.shortPos > 0:
                 orderList = self.algoEngine.cover(vtSymbol, price, volume, payup)
+                print 'cover', vtSymbol, price, volume
             else:
                 orderList = self.algoEngine.buy(vtSymbol, price, volume, payup)
-                
+                print 'buy', vtSymbol, price, volume
         elif legVolume < 0:
             price = leg.bidPrice
             
             if leg.longPos > 0:
                 orderList = self.algoEngine.sell(vtSymbol, price, volume, payup)
+                print 'sell', vtSymbol, price, volume
             else:
                 orderList = self.algoEngine.short(vtSymbol, price, volume, payup)
-                
+                print 'short', vtSymbol, price, volume
         # 保存到字典中
         if vtSymbol not in self.legOrderDict:
             self.legOrderDict[vtSymbol] = orderList
@@ -401,7 +403,7 @@ class SniperAlgo(StAlgoTemplate):
         
         # 计算主动腿委托量
         leg = self.legDict[self.activeVtSymbol]
-        legVolume = spreadVolume * leg.ratio        
+        legVolume = spreadVolume * leg.ratio
         self.sendLegOrder(leg, legVolume)
         self.writeLog(u'发出新的主动腿%s狙击单' %self.activeVtSymbol)
         
@@ -435,7 +437,7 @@ class SniperAlgo(StAlgoTemplate):
     def newActiveLegTrade(self, vtSymbol, direction, volume):
         """新的主动腿成交"""
         # 输出日志
-        self.writeLog(u'主动腿%s成交，方向%s，数量%s' %(vtSymbol, direction, volume))        
+        self.writeLog(u'主动腿%s成交，方向%s，数量%s' %(vtSymbol, direction, volume))
         
         # 将主动腿成交带上方向
         if direction == DIRECTION_SHORT:
@@ -454,9 +456,10 @@ class SniperAlgo(StAlgoTemplate):
                 self.hedgingTaskDict[leg.vtSymbol] = newHedgingTask
             else:
                 self.hedgingTaskDict[leg.vtSymbol] += newHedgingTask
+            print leg.vtSymbol, self.hedgingTaskDict[leg.vtSymbol]
         
         # 发出被动腿对冲委托
-        self.hedgeAllPassiveLegs()        
+        self.hedgeAllPassiveLegs()
     
     #----------------------------------------------------------------------
     def newPassiveLegTrade(self, vtSymbol, direction, volume):

@@ -321,7 +321,7 @@ class StAlgoEngine(object):
         algo = self.algoDict.get(spread.name, None)
         if algo:
             algo.updateSpreadPos(spread)
-    
+
     #----------------------------------------------------------------------
     def processTradeEvent(self, event):
         """处理成交事件"""
@@ -577,8 +577,6 @@ class StEngine(object):
         
         self.algoEngine.stopAll()
         self.algoEngine.saveSetting()
-        
-        
-        
-    
-    
+
+
+
